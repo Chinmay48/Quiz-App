@@ -1,8 +1,20 @@
 <h1 align="center">🧠 Quiz App – Full Stack Web Application</h1>
 
+###  Dashboard
 <p align="center">
-  <img src="demo.png" alt="Quiz App Demo" width="700"/>
+  <img src="Frontend/src/assets/facultydashboard.png" alt="Dashboard Screenshot" width="700"/>
 </p>
+
+###  Quiz Attempt Page
+<p align="center">
+  <img src="Frontend/src/assets/attempt.png" alt="Quiz Attempt Screenshot" width="700"/>
+</p>
+
+###  Create Quiz page
+<p align="center">
+  <img src="Frontend/src/assets/createquiz.png" alt="Create Page Screenshot" width="700"/>
+</p>
+
 
 <p align="center">
   <b>A full-stack web application built to streamline and digitalize quiz management in educational institutions.</b>
