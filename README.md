@@ -82,7 +82,7 @@ Follow the steps below to set up and run the project locally.
 
 ### 🔹 Step 1 — Clone
 ```bash
-git clone https://github.com/<your-username>/quiz-app.git
+git clone https://github.com/Chinmay48/Quiz-App.git
 cd quiz-app
 ```
 ---
