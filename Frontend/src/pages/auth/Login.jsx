@@ -19,7 +19,6 @@ export const Login = () => {
       localStorage.setItem("refresh", refresh);
 
       const userResponse = await getUserProfile();
-      
 
       if (userResponse.role === "faculty") {
         navigate("/faculty");
@@ -35,76 +34,76 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 to-indigo-100 px-4">
       <motion.form
-        className="bg-white text-gray-500 max-w-[350px] mx-4 md:p-6 p-4 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10"
         onSubmit={handleLogin}
-        initial={{ opacity: 0, y: -50 }}
+        className="w-full max-w-sm bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-gray-100"
+        initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <motion.h2
-          className="text-2xl font-semibold mb-6 text-center text-gray-800"
+          className="text-3xl font-semibold mb-8 text-center text-indigo-600"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          transition={{ delay: 0.3 }}
         >
-          Login Here
+          Welcome Back
         </motion.h2>
 
-        <motion.input
-          id="username"
-          className="w-full border my-3 border-gray-500/30 outline-none rounded-full py-2.5 px-4"
-          type="text"
-          placeholder="Enter your username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          whileFocus={{ scale: 1.02, borderColor: "#4f46e5" }}
-          transition={{ duration: 0.2 }}
-        />
+        <div className="space-y-5">
+          <motion.input
+            id="username"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none rounded-xl py-3 px-4 transition-all"
+            whileFocus={{ scale: 1.02 }}
+          />
 
-        <motion.input
-          id="password"
-          className="w-full border mt-1 border-gray-500/30 outline-none rounded-full py-2.5 px-4"
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          whileFocus={{ scale: 1.02, borderColor: "#4f46e5" }}
-          transition={{ duration: 0.2 }}
-        />
+          <motion.input
+            id="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none rounded-xl py-3 px-4 transition-all"
+            whileFocus={{ scale: 1.02 }}
+          />
 
-        <motion.button
-          type="submit"
-          className="w-full mb-3 bg-indigo-500 text-white py-3.5 rounded-full"
-          whileHover={{ scale: 1.05, backgroundColor: "#4338ca" }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.2 }}
-        >
-          Log in
-        </motion.button>
+          <motion.button
+            type="submit"
+            className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl shadow-md transition-all"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.96 }}
+          >
+            Log In
+          </motion.button>
+        </div>
 
         {error && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
+            className="mt-4"
           >
             <ErrorAlert message={error} onClose={() => setError("")} />
           </motion.div>
         )}
 
         <motion.p
-          className="text-center mt-4"
+          className="text-center text-sm text-gray-500 mt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
+          transition={{ delay: 0.5 }}
         >
           <a
             href="http://127.0.0.1:8000/admin/"
-            className="text-blue-500 underline"
+            className="text-indigo-600 font-medium hover:underline"
           >
             Admin Login
           </a>

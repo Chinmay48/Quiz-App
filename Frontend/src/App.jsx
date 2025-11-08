@@ -9,6 +9,7 @@ import { StudentDashboard } from './pages/student/StudentDashboard'
 import { StudentHome } from './pages/student/StudentHome'
 import { ExamAttemptPage } from './pages/student/ExamAttemptPage'
 import { QuizResultPage } from './pages/student/QuizResultPage'
+import { FacultyProfile } from './pages/faculty/FacultyProfile'
 const App=()=>{
   const router=createBrowserRouter([
    {
@@ -29,6 +30,10 @@ const App=()=>{
       },{
         path:"update/:id",
         element:<UpdateQuiz/>
+      },{
+
+        path:"faculty_profile",
+        element:<FacultyProfile/>
       }
     ]
    },
@@ -41,7 +46,7 @@ const App=()=>{
         element:<StudentHome/>
       },
       {
-        path:"quiz/result/:id",
+        path:"quiz/result/:quizId",
         element:<QuizResultPage/>
       }
 

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import study1 from "../../assets/study1.png";
 import study2 from "../../assets/study2.png";
 import study3 from "../../assets/study3.png";
-import study4 from "../../assets/study4.png";
+
 import { StudentQuizCard } from "../../components/StudentQuizCard";
 import { Navigate, useNavigate } from "react-router-dom";
 export const StudentHome=()=>{
@@ -37,7 +37,7 @@ export const StudentHome=()=>{
        fetchQuiz();
     },[])
    
-    const cardImages = [study1, study2, study3, study4];
+    const cardImages = [study1, study2, study3];
    const currentTime = new Date();
 
 const upcomingQuiz = quizes.filter(

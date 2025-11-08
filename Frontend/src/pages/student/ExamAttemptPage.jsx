@@ -92,6 +92,7 @@ export const ExamAttemptPage = () => {
 
       const token=localStorage.getItem("access");
       await axios.post(`http://127.0.0.1:8000/api/quiz/submission/${submission.id}/finish/`,{},{headers: { Authorization: `Bearer ${token}` } })
+      
 
       navigate(`/student/quiz/result/${quizId}`)
     } catch (error) {

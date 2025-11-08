@@ -1,67 +1,65 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { fetchSubmissionStatus } from "../api/studentApi";
-export const StudentQuizCard=({quiz,bgImage,onAttempt})=>{
-    const[attempted,setAttempted]=useState(false);
 
-    useEffect(()=>{
-          const fetchStatus=async()=>{
-          const response=await fetchSubmissionStatus(quiz.id)
-          setAttempted(response)
-          console.log(response)
-          }
-          fetchStatus()
-          
-          
-    },[quiz.id])
-     
+export const StudentQuizCard = ({ quiz, bgImage, onAttempt }) => {
+  const [attempted, setAttempted] = useState(false);
 
-    return(
-        <motion.div
-      whileHover={{ scale: 1.03 }}
-      className="relative rounded-xl overflow-hidden shadow-lg  h-56 md:h-64 group"
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const response = await fetchSubmissionStatus(quiz.id);
+      setAttempted(response);
+    };
+    fetchStatus();
+  }, [quiz.id]);
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.04 }}
+      className="relative rounded-2xl overflow-hidden shadow-xl border border-white/10 backdrop-blur-xl h-64 group bg-gradient-to-br from-indigo-600/20 to-purple-600/20"
     >
-      {/* Small centered image */}
-      <div className="flex flex-row justify-center items-center pt-8">
+      {/* Background image */}
+      <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-all duration-500">
         <img
           src={bgImage}
           alt="Quiz Background"
-          className="w-24 h-24 object-contain rounded-md shadow-sm transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover brightness-110"
         />
       </div>
 
-      {/* Overlay with text */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.21_0.03_263.45)] via-black/40 to-transparent p-4 flex flex-col justify-between">
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/90"></div>
+
+      {/* Content */}
+      <div className="relative flex flex-col justify-between h-full p-5">
         <div>
-          <h3 className="text-lg font-bold text-indigo-700 drop-shadow-md mb-2">
+          <h3 className="text-xl font-bold text-white drop-shadow-sm mb-1">
             {quiz.title}
           </h3>
-          <p className="text-sm text-indigo-400 drop-shadow-md line-clamp-3">
+          <p className="text-sm text-gray-200/80 leading-snug line-clamp-3">
             {quiz.description}
           </p>
         </div>
 
-       
-        <div className="flex flex-col gap-2">
-        
-          <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {/* Buttons and Info */}
+        <div className="flex flex-col gap-3">
+          <div className="flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <button
               disabled={attempted}
               onClick={() => onAttempt(quiz)}
-              className="flex-1 px-3 py-1 cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md text-sm"
+              className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium shadow-md transition
+                ${attempted ? "bg-gray-600 cursor-not-allowed" : "bg-indigo-500 hover:bg-indigo-600 text-white"}`}
             >
-              {attempted?"Already Attempted":"Attempt Quiz"}
+              {attempted ? "Already Attempted" : "Attempt Quiz"}
             </button>
-           
           </div>
 
-          {/* Duration and End Time */}
-          <div className="mt-2 flex justify-between items-center text-gray-100 text-sm font-medium">
-            <span>Duration {quiz.duration} </span>
-            <span>End Time {new Date(quiz.end_time).toLocaleDateString()}</span>
+          <div className="flex justify-between items-center text-gray-200 text-xs tracking-wide">
+            <span>Duration {quiz.duration}</span>
+            <span>End Date {new Date(quiz.end_time).toLocaleDateString()}</span>
           </div>
         </div>
       </div>
     </motion.div>
-    )
-}
+  );
+};

@@ -69,3 +69,4 @@ export const getQuizResult=async(quizId)=>{
     })
     return res.data
 }
+

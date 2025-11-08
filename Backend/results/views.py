@@ -41,9 +41,9 @@ def calculate_student_result(submission):
 def get_student_result(request,quiz_id):
     student_profile=Profile.objects.get(user=request.user)
     try:
-        result=StudentResult.objects.get(student=student_profile,quit=quiz_id)
+        result=StudentResult.objects.get(student=student_profile,quiz=quiz_id)
     except StudentResult.DoesNotExist:
         return Response({'error':'Result Not found'},status=status.HTTP_404_NOT_FOUND)
     
     serializer=StudentResultSerializer(result)
-    return Response(serializer.data)
+    return Response(serializer.data,status=status.HTTP_200_OK)

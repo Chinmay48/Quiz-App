@@ -58,7 +58,7 @@ class Answer(models.Model):
     submission=models.ForeignKey(Submission,on_delete=models.CASCADE)
     question=models.ForeignKey(Question,on_delete=models.CASCADE)
     selected_option=models.CharField(max_length=1,choices=Question.CORRECT_CHOICES)
-    
+
     def __str__(self):
         return f"Answer by {self.submission.student.user.name} for {self.question.id}"
     

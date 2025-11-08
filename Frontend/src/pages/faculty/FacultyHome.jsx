@@ -4,8 +4,7 @@ import { QuizCard } from "../../components/QuizCard";
 import { motion } from "framer-motion";
 import study1 from "../../assets/study1.png";
 import study2 from "../../assets/study2.png";
-import study3 from "../../assets/study3.png";
-import study4 from "../../assets/study4.png";
+import study3 from "../../assets/study3.png"
 import { QuizSuccessPopUp } from "../../components/QuizSuccessPopUp";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +14,7 @@ export const FacultyHome = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const navigate = useNavigate();
 
-  const cardImages = [study1, study2, study3, study4];
+  const cardImages = [study1, study2,study3];
 
   useEffect(() => {
     const fetchQuizzes = async () => {
