@@ -10,6 +10,9 @@ import { StudentHome } from './pages/student/StudentHome'
 import { ExamAttemptPage } from './pages/student/ExamAttemptPage'
 import { QuizResultPage } from './pages/student/QuizResultPage'
 import { FacultyProfile } from './pages/faculty/FacultyProfile'
+import { StudentProfile } from './pages/student/StudentProfile'
+import { FacultyAnalytics } from './pages/faculty/FacultyAnalytics'
+import { QuizAnalyticsDetails } from './pages/faculty/QuizAnalyticsDetail'
 const App=()=>{
   const router=createBrowserRouter([
    {
@@ -34,6 +37,12 @@ const App=()=>{
 
         path:"faculty_profile",
         element:<FacultyProfile/>
+      },{
+        path:"faculty_analytics",
+        element:<FacultyAnalytics/>
+      },{
+        path:"faculty_analytics/faculty_analytics_details/:quizId",
+        element:<QuizAnalyticsDetails/>
       }
     ]
    },
@@ -48,6 +57,9 @@ const App=()=>{
       {
         path:"quiz/result/:quizId",
         element:<QuizResultPage/>
+      },{
+        path:"student_profile",
+        element:<StudentProfile/>
       }
 
     ]

@@ -62,7 +62,7 @@ export const FacultySidebar = ({ username }) => {
 
             <motion.div variants={linkHover} whileHover="hover" className="mt-2">
               <NavLink
-                to="create_quiz"
+                to="faculty_analytics"
                 className="flex items-center px-4 py-2 gap-2 text-gray-100 hover:bg-indigo-300"
               >
                 <TbDeviceAnalytics />

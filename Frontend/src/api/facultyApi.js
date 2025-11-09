@@ -70,3 +70,28 @@ export const getFacultyQuizById=async(quizId)=>{
    
 }
 
+export const getFacultyAnalytics=async()=>{
+    const token=localStorage.getItem("access")
+    try {
+         const response=await axios.get(`http://127.0.0.1:8000/api/result/faculty-analytics/`,{
+         headers:{Authorization:`Bearer ${token}`}
+        
+    }) 
+    return response.data
+    } catch (error) {
+        console.log("Failed to fetch analytics:",error)
+    }
+}
+
+export const getFacultyAnalyticsDetails=async(quizId)=>{
+    const token=localStorage.getItem("access")
+    try {
+       const response=await axios.get(`http://127.0.0.1:8000/api/result/quiz-detail-analytics/${quizId}`,{
+         headers:{Authorization:`Bearer ${token}`}
+        
+    })
+    return response.data
+    } catch (error) {
+        console.log("Failed to fetch detail quiz analytics:",error)
+    }
+}

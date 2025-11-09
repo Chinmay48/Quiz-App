@@ -2,6 +2,10 @@ import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { logoutUser } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
+import { TbDeviceAnalytics } from "react-icons/tb";
+import { FaPowerOff } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 export const StudentSidebar = ({ username }) => {
   console.log(username);
     const navigate = useNavigate();
@@ -41,47 +45,41 @@ export const StudentSidebar = ({ username }) => {
             <motion.div variants={linkHover} whileHover="hover">
               <NavLink
                 to="/student"
-                className="flex items-center px-4 py-2 text-gray-100 hover:bg-indigo-300"
+                className="flex items-center gap-2 px-4 py-2 text-gray-100 hover:bg-indigo-300"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
-                  />
-                </svg>
+                <MdOutlineDashboardCustomize />
                 My Dashboard
               </NavLink>
             </motion.div>
 
-            
+             <motion.div variants={linkHover} whileHover="hover">
+              <NavLink
+                to="/student"
+                className="flex items-center gap-2 px-4 py-2 text-gray-100 hover:bg-indigo-300"
+              >
+               <TbDeviceAnalytics />
+
+                View Analytics
+              </NavLink>
+            </motion.div>
+
+             <motion.div variants={linkHover} whileHover="hover">
+              <NavLink
+                to="student_profile"
+                className="flex items-center gap-2 px-4 py-2 text-gray-100 hover:bg-indigo-300"
+              >
+               <CgProfile />
+                Profile
+              </NavLink>
+            </motion.div>
 
           
  <motion.button
               onClick={handleLogout}
-              className="flex items-center w-full text-left px-4 py-2 mt-2 text-gray-100 hover:bg-indigo-300"
+              className="flex items-center gap-2 w-full text-left px-4 py-2 mt-2 text-gray-100 hover:bg-indigo-300"
               whileHover={{ scale: 1.05, backgroundColor: "#a5b4fc" }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
+              <FaPowerOff />
               Logout
             </motion.button>
 
