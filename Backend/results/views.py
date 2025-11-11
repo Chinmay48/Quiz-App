@@ -97,3 +97,34 @@ def quiz_detail_analytics(request, quiz_id):
     } for r in results]
 
     return Response({"students": data})
+
+
+@api_view(['GET'])
+def student_analytics(request):
+    student=request.user.profile
+    results=StudentResult.objects.filter(student=student).order_by('created_at')
+    
+    total_attempted=results.count()
+    avg_percentage=results.aggregate(avg=Avg('percentage'))['avg'] or 0
+    
+    pass_count=results.filter(passed=True).count()
+    fail_count=total_attempted-pass_count;
+    
+    performance_trend=list(results.values('quiz__title','percentage','created_at'))
+    
+    quiz_history = [{
+        "quiz": r.quiz.title,
+        "score": r.score,
+        "percentage": r.percentage,
+        "passed": r.passed,
+        "date": r.created_at
+    } for r in results]
+    
+    return Response({
+        "total_attempted": total_attempted,
+        "avg_percentage": avg_percentage,
+        "pass_count": pass_count,
+        "fail_count": fail_count,
+        "performance_trend": performance_trend,
+        "quiz_history": quiz_history
+    })

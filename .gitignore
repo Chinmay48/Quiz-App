@@ -25,6 +25,8 @@ venv/
 env/
 ENV/
 .venv/
+.env
+
 
 # Django related
 __pycache__/

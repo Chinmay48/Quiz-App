@@ -4,10 +4,14 @@ import { getUserProfile } from "../../api/authApi";
 import { createQuiz } from "../../api/facultyApi";
 import { QuizSuccessPopUp } from "../../components/QuizSuccessPopUp";
 import { useNavigate } from "react-router-dom";
+import { GeminiQuizModal } from "../../components/GeminiQuizModel";
+
 export const CreateQuiz = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [showPopUp, setShowPopUp] = useState(false);
+  const [aiModal, setAiModal] = useState(false);
+
   const [quiz, setQuiz] = useState({
     title: "",
     description: "",
@@ -51,6 +55,13 @@ export const CreateQuiz = () => {
     const updatedQuestions = [...quiz.questions];
     updatedQuestions[index][e.target.name] = e.target.value;
     setQuiz({ ...quiz, questions: updatedQuestions });
+  };
+
+  const applyAIQuestions = (generatedQuestions) => {
+    setQuiz({
+      ...quiz,
+      questions: generatedQuestions,
+    });
   };
 
   const handleAddQuestion = () => {
@@ -112,6 +123,13 @@ export const CreateQuiz = () => {
       >
         Create Quiz
       </motion.h2>
+      <motion.button
+        onClick={() => setAiModal(true)}
+        whileHover={{ scale: 1.05 }}
+        className="mb-4 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium shadow-lg hover:shadow-xl transition"
+      >
+        Generate Quiz with AI
+      </motion.button>
 
       <form
         onSubmit={handleSubmit}
@@ -180,7 +198,7 @@ export const CreateQuiz = () => {
                 htmlFor="start_time"
                 className="text-sm font-semibold text-gray-700 mb-1"
               >
-                 Start Date & Time
+                Start Date & Time
               </label>
               <input
                 id="start_time"
@@ -200,7 +218,7 @@ export const CreateQuiz = () => {
                 htmlFor="end_time"
                 className="text-sm font-semibold text-gray-700 mb-1"
               >
-                 End Date & Time
+                End Date & Time
               </label>
               <input
                 id="end_time"
@@ -216,14 +234,14 @@ export const CreateQuiz = () => {
           </div>
         </motion.div>
         <input
-  type="number"
-  name="duration"
-  placeholder="Duration (in minutes)"
-  value={quiz.duration}
-  onChange={handleQuizChange}
-  className="p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition w-full"
-  required
-/>
+          type="number"
+          name="duration"
+          placeholder="Duration (in minutes)"
+          value={quiz.duration}
+          onChange={handleQuizChange}
+          className="p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition w-full"
+          required
+        />
         <textarea
           name="description"
           placeholder="Quiz Description"
@@ -316,6 +334,12 @@ export const CreateQuiz = () => {
           message2={"Quiz will be added to scheduled"}
         />
       )}
+      <GeminiQuizModal
+  show={aiModal}
+  onClose={() => setAiModal(false)}
+  onApply={applyAIQuestions}
+/>
+
     </motion.div>
   );
 };

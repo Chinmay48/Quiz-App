@@ -13,6 +13,7 @@ import { FacultyProfile } from './pages/faculty/FacultyProfile'
 import { StudentProfile } from './pages/student/StudentProfile'
 import { FacultyAnalytics } from './pages/faculty/FacultyAnalytics'
 import { QuizAnalyticsDetails } from './pages/faculty/QuizAnalyticsDetail'
+import { StudentAnalyticsPage } from './pages/student/StudentAnalytics'
 const App=()=>{
   const router=createBrowserRouter([
    {
@@ -60,6 +61,9 @@ const App=()=>{
       },{
         path:"student_profile",
         element:<StudentProfile/>
+      },{
+        path:"student_analytics",
+        element:<StudentAnalyticsPage/>
       }
 
     ]

@@ -70,3 +70,15 @@ export const getQuizResult=async(quizId)=>{
     return res.data
 }
 
+export const getStudentAnalytics=async()=>{
+    const token=localStorage.getItem("access")
+    try {
+         const response=await axios.get(`http://127.0.0.1:8000/api/result/student-analytics/`,{
+         headers:{Authorization:`Bearer ${token}`}
+        
+    }) 
+    return response.data
+    } catch (error) {
+        console.log("Failed to fetch analytics:",error)
+    }
+}
