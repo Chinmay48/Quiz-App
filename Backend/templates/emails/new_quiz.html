@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* Basic Reset */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #eef2ff;
+        font-family: 'Segoe UI', Arial, sans-serif;
+      }
+
+      /* Container */
+      .email-container {
+        max-width: 600px;
+        margin: 30px auto;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      /* Header */
+      .email-header {
+        background-color: #4f46e5;
+        padding: 20px 25px;
+        text-align: center;
+      }
+
+      .email-header h1 {
+        color: #ffffff;
+        margin: 0;
+        font-size: 24px;
+        letter-spacing: 0.5px;
+      }
+
+      /* Body */
+      .email-body {
+        padding: 25px 30px;
+        color: #1e1e2f;
+      }
+
+      .email-body p {
+        font-size: 15px;
+        line-height: 1.6;
+        color: #333333;
+        margin: 10px 0;
+      }
+
+      /* Quiz Info Box */
+      .info-box {
+        margin: 20px 0;
+        background-color: #f5f3ff;
+        border-left: 4px solid #4f46e5;
+        padding: 15px 20px;
+        border-radius: 8px;
+      }
+
+      .info-box p {
+        margin: 8px 0;
+      }
+
+      .info-box strong {
+        color: #312e81;
+      }
+
+      /* CTA Button */
+      .cta-button {
+        display: inline-block;
+        background-color: #4f46e5;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 15px;
+        margin: 20px auto;
+      }
+
+      /* Footer */
+      .email-footer {
+        background-color: #eef2ff;
+        padding: 15px;
+        text-align: center;
+        border-top: 1px solid #e0e7ff;
+      }
+
+      .email-footer p {
+        margin: 0;
+        font-size: 13px;
+        color: #4b5563;
+      }
+
+      /* 🌐 Responsive Styles */
+      @media only screen and (max-width: 600px) {
+        .email-container {
+          width: 90%;
+          margin: 20px auto;
+        }
+
+        .email-header h1 {
+          font-size: 20px;
+        }
+
+        .email-body {
+          padding: 20px;
+        }
+
+        .email-body p {
+          font-size: 14px;
+        }
+
+        .info-box {
+          padding: 12px 15px;
+        }
+
+        .cta-button {
+          display: block;
+          width: 100%;
+          text-align: center;
+          padding: 14px;
+          font-size: 16px;
+        }
+
+        .email-footer p {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="email-container">
+      <!-- Header -->
+      <div class="email-header">
+        <h1>New Quiz Alert 🎯</h1>
+      </div>
+
+      <!-- Body -->
+      <div class="email-body">
+        <p>Hello Student ,</p>
+        <p>
+          A new quiz has just been created for your department. Please review
+          the details below:
+        </p>
+
+        <div class="info-box">
+          <p><strong> Quiz Title:</strong> {{ quiz_title }}</p>
+          <p><strong> Faculty:</strong> {{ faculty_name }}</p>
+          <p><strong> Department:</strong> {{ department }}</p>
+          <p><strong> Year:</strong> {{ year }}</p>
+        </div>
+
+        <p>You can attempt the quiz by visiting your student dashboard:</p>
+
+        <div style="text-align: center">
+          <a href="{{ link }}" class="cta-button">Go to Dashboard</a>
+        </div>
+
+        <p style="text-align: center; color: #4b5563">
+          Stay focused and give your best shot! 
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="email-footer">
+        <p>
+          © 2025 Quiz Portal | Powered by <b style="color: #4338ca">TCET</b>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,9 @@
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
+from django.template.loader import render_to_string
 from .models import Quiz,Answer,Submission,Question
 from .serializers import AnswerSerializer,QuestionSerializer,SubmissionSerializer,QuizSerializer
 from rest_framework import status
@@ -27,7 +30,10 @@ def quiz_list_create(request):
             return Response({'error':'Only Faculty can creare quiz'},status=status.HTTP_403_FORBIDDEN)
         serializer=QuizSerializer(data=request.data, context={'faculty': profile})
         if serializer.is_valid():
-            serializer.save()
+            quiz=serializer.save()
+            
+            send_quiz_notification_email(quiz)
+            
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
@@ -194,4 +200,30 @@ def submission_status(request,quiz_id):
 
     return Response({'attempted': attempted})
     
-    
+
+
+def send_quiz_notification_email(quiz):
+    from .models import Profile
+    students = Profile.objects.filter(role='student', department=quiz.department, year=quiz.year)
+    recipients = [s.user.email for s in students if s.user.email]
+
+    if not recipients:
+        return
+
+    subject = f" New Quiz: {quiz.title}"
+    text_content = f"A new quiz '{quiz.title}' has been created. Check your dashboard."
+    html_content = render_to_string('emails/new_quiz.html', {
+        'quiz_title': quiz.title,
+        'faculty_name': quiz.faculty.user.get_full_name(),
+        'department': quiz.department,
+        'year': quiz.year,
+        
+    })
+
+    from django.core.mail import EmailMultiAlternatives
+    from django.conf import settings
+
+    for email in recipients:
+        msg = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [email])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
