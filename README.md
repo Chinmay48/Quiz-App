@@ -47,7 +47,7 @@ It offers a secure, automated, and interactive platform for **faculty** to creat
 | **Authentication** | [JWT (JSON Web Tokens)](https://jwt.io/) | Secure authentication for faculty & students |
 | **AI Integration** | [Google Gemini API](https://ai.google.dev/) | Auto-generates quiz questions based on syllabus/topics |
 | **Email Service** | [Django Email System](https://docs.djangoproject.com/en/stable/topics/email/) | Sends quiz creation  |
-| **Visualization** | [Recharts](https://recharts.org/) | Used for dashboards and performance graphs |
+
 
 
 ---
