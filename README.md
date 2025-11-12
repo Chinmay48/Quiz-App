@@ -6,7 +6,7 @@
 
 ###  Dashboard
 <p align="center">
-  <img src="Frontend/src/assets/facultydashboard.png" alt="Dashboard Screenshot" width="700"/>
+  <img src="Frontend/src/assets/facultydashboard1.png" alt="Dashboard Screenshot" width="700"/>
 </p>
 
 ###  Quiz Attempt Page
@@ -16,9 +16,18 @@
 
 ###  Create Quiz page
 <p align="center">
-  <img src="Frontend/src/assets/createquiz.png" alt="Create Page Screenshot" width="700"/>
+  <img src="Frontend/src/assets/createquiz1.png" alt="Create Page Screenshot" width="700"/>
 </p>
 
+###  Faculty Analytics
+<p align="center">
+  <img src="Frontend/src/assets/FacultyAnalytics.png" alt="Create Page Screenshot" width="700"/>
+</p>
+
+###  Student Analytics
+<p align="center">
+  <img src="Frontend/src/assets/StudentAnalytics.png" alt="Create Page Screenshot" width="700"/>
+</p>
 
 <p align="center">
   <b>A full-stack web application built to streamline and digitalize quiz management in educational institutions.</b>
@@ -134,6 +143,14 @@ npm install
 ```
 ---
 
+### 📦 Create a .env file at (/Frontend)
+Add your Gemini API key here
+```bash
+VITE_GEMINI_API_KEY=your_gemeini_api_key
+```
+
+---
+
 ### 🚀 Run the App
 The React app will start at:
 📍 http://localhost:5173/
@@ -208,6 +225,14 @@ python manage.py migrate
 python manage.py createsuperuser
 
 ```
+---
+### 📦 Create a .env file at (/Backend)
+Add your Email Host user and password here
+```bash
+EMAIL_HOST_USER = your_email@gmail.com
+EMAIL_HOST_PASSWORD = your_password (abcd abcd abcd abcd)
+```
+
 ---
 
 ### ▶️ Run the Django Server
