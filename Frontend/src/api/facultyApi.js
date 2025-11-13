@@ -1,97 +1,77 @@
-import axios  from "axios";
+import axios from "axios";
+import axiosInstance from "./axiosConfig";
 
-const API_URL="http://127.0.0.1:8000/api/quiz"
+const BASE = import.meta.env.VITE_API_BASE_URL;
 
-export const getFacultyQuizzes=async ()=>{
-    const token=localStorage.getItem("access")
-    const response=await axios.get(`${API_URL}/quizzes/`,{
-        headers:{Authorization:`Bearer ${token}`}
-    })
-    return response.data
+// ---------------------- Get All Quizzes ----------------------
+export const getFacultyQuizzes = async () => {
+  const response = await axiosInstance.get(`/quiz/quizzes/`);
+  return response.data;
+};
 
-}
+// ---------------------- Get Quiz Questions ----------------------
+export const getQuizQuestions = async (quizId) => {
+  const response = await axiosInstance.get(`/quiz/question/${quizId}/`);
+  return response.data;
+};
 
-export const getQuizQuestions=async(quizId)=>{
-    const token=localStorage.getItem("access")
-    const response=await axios.get(`${API_URL}/question`,{
-        headers:{Authorization:`Bearer ${token}`}
-    })
-    return response.data
-}
+// ---------------------- Get Submissions ----------------------
+export const getQuizSubmission = async (quizId) => {
+  const response = await axiosInstance.get(`/quiz/submission/${quizId}/`);
+  return response.data;
+};
 
-export const getQuizSubmission=async(quizId)=>{
-    const token=localStorage.getItem("access")
-    const response=await axios.get(`${API_URL}/submission`,{
-        headers:{Authorization:`Bearer ${token}`}
-    })
-    return response.data
-}
+// ---------------------- Create Quiz ----------------------
+export const createQuiz = async (quizData) => {
+  const response = await axiosInstance.post(`/quiz/quizzes/`, quizData);
+  return response.data;
+};
 
-export const createQuiz=async (quizData)=>{
-    const token=localStorage.getItem("access")
-    const response=await axios.post(`${API_URL}/quizzes/`,quizData,{
-        headers:{
-           Authorization: `Bearer ${token}`,
-           "Content-Type":"application/json"
-        }
-    })
-    return response.data
-}
+// ---------------------- Delete Quiz ----------------------
+export const deleteQuiz = async (quizId) => {
+  const response = await axiosInstance.delete(
+    `/quiz/quizzes/${quizId}/delete/`
+  );
+  return response.data;
+};
 
-export const deleteQuiz=async(quizId)=>{
-    const token=localStorage.getItem("access")
-    console.log(quizId)
-    const response=await axios.delete(`${API_URL}/quizzes/${quizId}/delete/`,{
-        headers:{Authorization:`Bearer ${token}`}
-    })
-   return response.data
-}
+// ---------------------- Update Quiz ----------------------
+export const updateQuiz = async (quizId, data) => {
+  const response = await axiosInstance.put(
+    `/quiz/quizzes/${quizId}/update/`,
+    data
+  );
+  return response.data;
+};
 
-export const updateQuiz=async(quizId,data)=>{
-    const token=localStorage.getItem("access")
-    const response=await axios.put(`${API_URL}/quizzes/${quizId}/update/`,data,{
-        headers:{Authorization:`Bearer ${token}`}
-    })
-    return response.data
-}
+// ---------------------- Get Quiz by ID ----------------------
+export const getFacultyQuizById = async (quizId) => {
+  try {
+    const response = await axiosInstance.get(`/quiz/quizzes/${quizId}/`);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch quiz id:", error);
+  }
+};
 
+// ---------------------- Faculty Analytics ----------------------
+export const getFacultyAnalytics = async () => {
+  try {
+    const response = await axiosInstance.get(`/result/faculty-analytics/`);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch analytics:", error);
+  }
+};
 
-export const getFacultyQuizById=async(quizId)=>{
-    const token=localStorage.getItem("access")
-    try {
-        const response=await axios.get(`${API_URL}/quizzes/${quizId}/`,{
-         headers:{Authorization:`Bearer ${token}`}
-        
-    }) 
-    return response.data
-    } catch (error) {
-        console.log("Failed to fetch quiz id:",error)
-    }
-   
-}
-
-export const getFacultyAnalytics=async()=>{
-    const token=localStorage.getItem("access")
-    try {
-         const response=await axios.get(`http://127.0.0.1:8000/api/result/faculty-analytics/`,{
-         headers:{Authorization:`Bearer ${token}`}
-        
-    }) 
-    return response.data
-    } catch (error) {
-        console.log("Failed to fetch analytics:",error)
-    }
-}
-
-export const getFacultyAnalyticsDetails=async(quizId)=>{
-    const token=localStorage.getItem("access")
-    try {
-       const response=await axios.get(`http://127.0.0.1:8000/api/result/quiz-detail-analytics/${quizId}`,{
-         headers:{Authorization:`Bearer ${token}`}
-        
-    })
-    return response.data
-    } catch (error) {
-        console.log("Failed to fetch detail quiz analytics:",error)
-    }
-}
+// ---------------------- Quiz Detailed Analytics ----------------------
+export const getFacultyAnalyticsDetails = async (quizId) => {
+  try {
+    const response = await axiosInstance.get(
+      `/result/quiz-detail-analytics/${quizId}/`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch detail quiz analytics:", error);
+  }
+};

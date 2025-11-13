@@ -1,84 +1,68 @@
+import axiosInstance from "./axiosConfig";
 import axios from "axios";
-const API_URL="http://127.0.0.1:8000/api/quiz"
-const RESULT_URL="http://127.0.0.1:8000/api/result"
 
-export const getStudentQuiz=async()=>{
-     const token=localStorage.getItem("access")
-    const response=await axios.get(`${API_URL}/quizzes/`,{
-        headers:{Authorization:`Bearer ${token}`}
-    })
-    return response.data
-}
+const BASE = import.meta.env.VITE_API_BASE_URL;
 
-export const getStudentQuizById=async(quizId)=>{
-    const token=localStorage.getItem("access")
-    try {
-        const response=await axios.get(`${API_URL}/quizzes/${quizId}/`,{
-         headers:{Authorization:`Bearer ${token}`}
-        
-    }) 
-    return response.data
-    } catch (error) {
-        console.log("Failed to fetch quiz id:",error)
-    }
-   
-}
+// ---------------------- Get All Quizzes ----------------------
+export const getStudentQuiz = async () => {
+  const response = await axiosInstance.get(`/quiz/quizzes/`);
+  return response.data;
+};
 
-export const createSubmission=async(quizId)=>{
-    const token=localStorage.getItem("access")
-    try {
-        const response=await axios.post(`${API_URL}/submission/`,{quiz:quizId},{
-         headers:{Authorization:`Bearer ${token}`}
-        
-    })
-    return response.data
-    } catch (error) {
-        console.log(error)
-    }
+// ---------------------- Get Quiz by ID ----------------------
+export const getStudentQuizById = async (quizId) => {
+  try {
+    const response = await axiosInstance.get(`/quiz/quizzes/${quizId}/`);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch quiz id:", error);
+  }
+};
 
-}
+// ---------------------- Create Submission ----------------------
+export const createSubmission = async (quizId) => {
+  try {
+    const response = await axiosInstance.post(`/quiz/submission/`, {
+      quiz: quizId,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export const submitAnswer=async(submissionId,questionId,selectedOption)=>{
-    const token=localStorage.getItem("access")
-    try {
-        const response=await axios.post(`${API_URL}/answers/`,{
-            submission:submissionId,question:questionId,selected_option:selectedOption
-        },{
-         headers:{Authorization:`Bearer ${token}`}
-        
-    })
-    return response.data
-    } catch (error) {
-        console.log(error)
-    }
-}
+// ---------------------- Submit an Answer ----------------------
+export const submitAnswer = async (submissionId, questionId, selectedOption) => {
+  try {
+    const response = await axiosInstance.post(`/quiz/answers/`, {
+      submission: submissionId,
+      question: questionId,
+      selected_option: selectedOption,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+// ---------------------- Check If Student Already Attempted ----------------------
+export const fetchSubmissionStatus = async (quizId) => {
+  const res = await axiosInstance.get(`/quiz/${quizId}/submission-status/`);
+  return res.data.attempted;
+};
 
-export const fetchSubmissionStatus=async(quizId)=>{
-     const token=localStorage.getItem('access')
-    const res=await axios.get(`${API_URL}/${quizId}/submission-status/`,{
-        headers: { Authorization: `Bearer ${token}` }
-    })
-    return res.data.attempted
-}
+// ---------------------- Get Quiz Result ----------------------
+export const getQuizResult = async (quizId) => {
+  const res = await axiosInstance.get(`/result/quiz/${quizId}/`);
+  return res.data;
+};
 
-export const getQuizResult=async(quizId)=>{
-    const token=localStorage.getItem('access')
-    const res=await axios.get(`${RESULT_URL}/quiz/${quizId}/`,{
-        headers:{Authorization: `Bearer ${token}`}
-    })
-    return res.data
-}
-
-export const getStudentAnalytics=async()=>{
-    const token=localStorage.getItem("access")
-    try {
-         const response=await axios.get(`http://127.0.0.1:8000/api/result/student-analytics/`,{
-         headers:{Authorization:`Bearer ${token}`}
-        
-    }) 
-    return response.data
-    } catch (error) {
-        console.log("Failed to fetch analytics:",error)
-    }
-}
+// ---------------------- Student Analytics ----------------------
+export const getStudentAnalytics = async () => {
+  try {
+    const response = await axiosInstance.get(`/result/student-analytics/`);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch analytics:", error);
+  }
+};

@@ -1,8 +1,8 @@
 import axios from "axios"
 import axiosInstance from "./axiosConfig"
-
+const BASE = import.meta.env.VITE_API_BASE_URL;
 export const loginUser=async(username,password)=>{
-    const response=await axios.post("http://127.0.0.1:8000/api/token/",{
+    const response=await axios.post(`${BASE}/token/`,{
         username:String(username),
         password:String(password),
       
@@ -23,13 +23,13 @@ export const logoutUser = () => {
 
 
 export const changePassword=async(data)=>{
-    const response=await axios.post("http://127.0.0.1:8000/api/accounts/change_password/",data,{
+    const response=await axios.post(`${BASE}/accounts/change_password/`,data,{
          headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
     })
     return response.data;
 }
 
 export const registerUser = async (data) => {
-  const res = await axios.post("http://127.0.0.1:8000/api/accounts/register/", data);
+  const res = await axios.post(`${BASE}/accounts/register/`, data);
   return res.data;
 };
