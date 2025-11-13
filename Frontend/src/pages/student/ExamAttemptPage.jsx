@@ -13,6 +13,7 @@ export const ExamAttemptPage = () => {
   const [markedForReview, setMarkedForReview] = useState({});
   const [timeLeft, setTimeLeft] = useState(0);
   const navigate = useNavigate();
+  const BASE = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -89,7 +90,7 @@ export const ExamAttemptPage = () => {
       const token = localStorage.getItem("access");
 
       await axios.post(
-        `http://127.0.0.1:8000/api/quiz/submission/${submission.id}/finish/`,
+        `${BASE}/quiz/submission/${submission.id}/finish/`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
