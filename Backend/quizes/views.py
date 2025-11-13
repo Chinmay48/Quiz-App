@@ -32,7 +32,7 @@ def quiz_list_create(request):
         if serializer.is_valid():
             quiz=serializer.save()
             
-            send_quiz_notification_email(quiz)
+            # send_quiz_notification_email(quiz)
             
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
