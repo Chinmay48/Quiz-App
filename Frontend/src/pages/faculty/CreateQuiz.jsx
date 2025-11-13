@@ -37,7 +37,7 @@ export const CreateQuiz = () => {
     const fetchData = async () => {
       try {
         const userData = await getUserProfile();
-        console.log(userData);
+      
         setUser(userData);
       } catch (error) {
         console.log("fail");
@@ -95,7 +95,7 @@ export const CreateQuiz = () => {
       quiz.department = user.department;
       const payload = { ...quiz, duration: quiz.duration * 60 };
       const response = await createQuiz(payload);
-      console.log("Quiz created:", response);
+     
       setShowPopUp(true);
       setTimeout(() => {
         navigate("/faculty");
@@ -110,7 +110,7 @@ export const CreateQuiz = () => {
 
   return (
     <motion.div
-      className="max-w-4xl mx-auto p-6"
+      className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -133,7 +133,13 @@ export const CreateQuiz = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white/70 backdrop-blur-lg shadow-2xl rounded-2xl p-6 space-y-8"
+        className="bg-white/80
+    backdrop-blur-lg 
+    shadow-xl 
+    rounded-2xl 
+    p-4 sm:p-6 md:p-8 
+    space-y-8 
+    w-full"
       >
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
@@ -191,47 +197,51 @@ export const CreateQuiz = () => {
               <option value="BE">BE (Final Year)</option>
             </motion.select>
           </motion.div>
-          <div className="space-y-4 flex flex-row gap-50">
-            {/* Start Time Field */}
-            <div className="flex flex-col ">
-              <label
-                htmlFor="start_time"
-                className="text-sm font-semibold text-gray-700 mb-1"
-              >
-                Start Date & Time
-              </label>
-              <input
-                id="start_time"
-                type="datetime-local"
-                name="start_time"
-                value={quiz.start_time ? quiz.start_time : ""}
-                onChange={handleQuizChange}
-                placeholder="Select start date and time"
-                className="p-3 rounded-lg border border-gray-300 focus:ring-2  focus:ring-indigo-500 focus:border-indigo-500 transition w-full"
-                required
-              />
-            </div>
+          <div className="flex flex-col md:flex-row gap-6 w-full">
+  
+  {/* Start Time */}
+  <div className="flex flex-col w-full">
+    <label
+      htmlFor="start_time"
+      className="text-sm font-semibold text-gray-700 mb-1"
+    >
+      Start Date & Time
+    </label>
+    <input
+      id="start_time"
+      type="datetime-local"
+      name="start_time"
+      value={quiz.start_time || ""}
+      onChange={handleQuizChange}
+      className="p-3 rounded-lg border border-gray-300 
+                 focus:ring-2 focus:ring-indigo-500 
+                 focus:border-indigo-500 transition w-full"
+      required
+    />
+  </div>
 
-            {/* End Time Field */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="end_time"
-                className="text-sm font-semibold text-gray-700 mb-1"
-              >
-                End Date & Time
-              </label>
-              <input
-                id="end_time"
-                type="datetime-local"
-                name="end_time"
-                value={quiz.end_time ? quiz.end_time : ""}
-                onChange={handleQuizChange}
-                placeholder="Select end date and time"
-                className="p-3 rounded-lg border  border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition w-full"
-                required
-              />
-            </div>
-          </div>
+  {/* End Time */}
+  <div className="flex flex-col w-full">
+    <label
+      htmlFor="end_time"
+      className="text-sm font-semibold text-gray-700 mb-1"
+    >
+      End Date & Time
+    </label>
+    <input
+      id="end_time"
+      type="datetime-local"
+      name="end_time"
+      value={quiz.end_time || ""}
+      onChange={handleQuizChange}
+      className="p-3 rounded-lg border border-gray-300 
+                 focus:ring-2 focus:ring-indigo-500 
+                 focus:border-indigo-500 transition w-full"
+      required
+    />
+  </div>
+</div>
+
         </motion.div>
         <input
           type="number"
@@ -254,7 +264,7 @@ export const CreateQuiz = () => {
         {quiz.questions.map((question, index) => (
           <motion.div
             key={index}
-            className="p-5 border rounded-xl shadow-md bg-gray-50/70 space-y-4"
+            className="p-4 sm:p-5 border rounded-xl shadow-md bg-gray-50/70 space-y-4 w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 * index }}
@@ -304,26 +314,43 @@ export const CreateQuiz = () => {
           </motion.div>
         ))}
 
-        <div className="flex justify-between gap-4">
-          <motion.button
-            type="button"
-            onClick={handleAddQuestion}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium shadow-lg hover:shadow-xl transition"
-          >
-            Add Question
-          </motion.button>
+       <div className="flex flex-col md:flex-row justify-between gap-4">
 
-          <motion.button
-            type="submit"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold shadow-lg hover:shadow-xl transition"
-          >
-            Create Quiz
-          </motion.button>
-        </div>
+  {/* Add Question Button */}
+  <motion.button
+    type="button"
+    onClick={handleAddQuestion}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className="
+      px-4 py-2 md:px-6 md:py-3
+      w-full md:w-auto
+      rounded-xl 
+      bg-gradient-to-r from-indigo-500 to-purple-600 
+      text-white font-medium shadow-lg hover:shadow-xl transition
+    "
+  >
+    Add Question
+  </motion.button>
+
+  {/* Create Quiz Button */}
+  <motion.button
+    type="submit"
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className="
+      px-4 py-2 md:px-6 md:py-3
+      w-full md:w-auto
+      rounded-xl 
+      bg-gradient-to-r from-green-500 to-emerald-600 
+      text-white font-semibold shadow-lg hover:shadow-xl transition
+    "
+  >
+    Create Quiz
+  </motion.button>
+
+</div>
+
       </form>
 
       {showPopUp && (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ErrorAlert } from "../../components/ErrorAlert";
 import { loginUser, getUserProfile } from "../../api/authApi";
 import { motion } from "framer-motion";
@@ -83,6 +83,21 @@ export const Login = () => {
             Log In
           </motion.button>
         </div>
+
+        {/* NEW USER REDIRECT */}
+        <motion.p
+          className="text-center text-sm text-gray-600 mt-5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          New user?{" "}
+          <Link
+            to="/register"
+            className="text-indigo-600 font-semibold hover:underline"
+          >
+            Create an account
+          </Link>
+        </motion.p>
 
         {error && (
           <motion.div

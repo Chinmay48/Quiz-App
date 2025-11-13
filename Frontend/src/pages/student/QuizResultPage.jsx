@@ -10,7 +10,7 @@ export const QuizResultPage = () => {
     const fetchResult = async () => {
       try {
         const data = await getQuizResult(quizId); 
-        console.log("Fetched data:", data);       
+            
         setResult(data);
       } catch (error) {
         console.error("Error fetching quiz result:", error);

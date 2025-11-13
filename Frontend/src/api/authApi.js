@@ -28,3 +28,8 @@ export const changePassword=async(data)=>{
     })
     return response.data;
 }
+
+export const registerUser = async (data) => {
+  const res = await axios.post("http://127.0.0.1:8000/api/accounts/register/", data);
+  return res.data;
+};

@@ -26,7 +26,7 @@ export const StudentHome=()=>{
         try {
             const quizList= await getStudentQuiz()
             setQuizes(quizList)
-            console.log(quizList)
+            
         } catch (error) {
             console.log(error)
         }

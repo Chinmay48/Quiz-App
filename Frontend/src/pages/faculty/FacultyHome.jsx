@@ -34,7 +34,7 @@ export const FacultyHome = () => {
   const handleDelete = async (quiz) => {
     try {
       await deleteQuiz(quiz.id);
-      console.log("Deleting quiz");
+    
       setQuizzes((prev) => prev.filter((q) => q.id !== quiz.id));
       setShowPopUp(true);
     } catch (error) {

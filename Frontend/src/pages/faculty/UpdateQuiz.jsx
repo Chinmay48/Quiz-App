@@ -2,77 +2,77 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getUserProfile } from "../../api/authApi";
-import { updateQuiz, getFacultyQuizById } from "../../api/facultyApi"; // make sure you add getFacultyQuizById
+import { updateQuiz, getFacultyQuizById } from "../../api/facultyApi";
 import { QuizSuccessPopUp } from "../../components/QuizSuccessPopUp";
 
 export const UpdateQuiz = () => {
-  const { id } = useParams(); // quiz id from URL
+
+  const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
-  const [showPopUp, setShowPopUp] = useState(false);
   const [quiz, setQuiz] = useState(null);
+  const [showPopUp, setShowPopUp] = useState(false);
 
+  // Convert server datetime to HTML datetime-local format
   const formatDateTimeLocal = (dateString) => {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  const tzOffset = date.getTimezoneOffset() * 60000; // fix UTC offset
-  const localISOTime = new Date(date - tzOffset).toISOString().slice(0, 16);
-  return localISOTime;
-};
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const tzOffset = date.getTimezoneOffset() * 60000;
+    return new Date(date - tzOffset).toISOString().slice(0, 16);
+  };
 
-// Convert "01:00:00" → minutes (e.g., 60)
-const formatDuration = (durationStr) => {
-  if (!durationStr) return "";
-  const [hours, minutes, seconds] = durationStr.split(":").map(Number);
-  return hours * 60 + minutes; // return minutes
-};
+  // "01:30:00" → minutes
+  const formatDuration = (durationStr) => {
+    if (!durationStr) return "";
+    const [h, m] = durationStr.split(":").map(Number);
+    return h * 60 + m;
+  };
 
-
+  // Load quiz + user
   useEffect(() => {
-    const fetchData = async () => {
+    const init = async () => {
       try {
-        const userData = await getUserProfile();
-        setUser(userData);
+        const profile = await getUserProfile();
+        setUser(profile);
 
         if (location.state?.quiz) {
-           const q = location.state.quiz;
-  setQuiz({
-    ...q,
-    start_time:formatDateTimeLocal(q.start_time),
-    end_time: formatDateTimeLocal(q.end_time),
-    duration: formatDuration(q.duration),
-  }); // from FacultyHome
-        } else {
-          const quizData = await getFacultyQuizById(id);
+          const q = location.state.quiz;
+
           setQuiz({
-            ...quizData,
-            start_time: formatDateTimeLocal(quizData.start_time),
-             end_time: formatDateTimeLocal(quizData.end_time),
-        duration: formatDuration(quizData.duration),
+            ...q,
+            start_time: formatDateTimeLocal(q.start_time),
+            end_time: formatDateTimeLocal(q.end_time),
+            duration: formatDuration(q.duration)
           });
-          console.log(quizData)
+        } else {
+          const fetched = await getFacultyQuizById(id);
+          setQuiz({
+            ...fetched,
+            start_time: formatDateTimeLocal(fetched.start_time),
+            end_time: formatDateTimeLocal(fetched.end_time),
+            duration: formatDuration(fetched.duration)
+          });
         }
-      } catch (err) {
-        console.error("Failed to fetch data", err);
+      } catch (e) {
+        console.log("Error loading page:", e);
       }
     };
-    fetchData();
+    init();
   }, [id, location.state]);
 
-  if (!quiz) {
-    return <p className="text-center mt-20">Loading quiz...</p>;
-  }
+  if (!quiz) return <p className="text-center mt-20">Loading...</p>;
 
+  // Handlers
   const handleQuizChange = (e) => {
     setQuiz({ ...quiz, [e.target.name]: e.target.value });
   };
 
   const handleQuestionChange = (index, e) => {
-    const updatedQuestions = [...quiz.questions];
-    updatedQuestions[index][e.target.name] = e.target.value;
-    setQuiz({ ...quiz, questions: updatedQuestions });
+    const updated = [...quiz.questions];
+    updated[index][e.target.name] = e.target.value;
+    setQuiz({ ...quiz, questions: updated });
   };
 
   const handleAddQuestion = () => {
@@ -80,81 +80,92 @@ const formatDuration = (durationStr) => {
       ...quiz,
       questions: [
         ...quiz.questions,
-        {
-          text: "",
-          option1: "",
-          option2: "",
-          option3: "",
-          option4: "",
-          correct_option: "",
-        },
-      ],
+        { text: "", option1: "", option2: "", option3: "", option4: "", correct_option: "" }
+      ]
     });
   };
 
   const handleDeleteQuestion = (index) => {
     setQuiz({
       ...quiz,
-      questions: quiz.questions.filter((_, i) => i !== index),
+      questions: quiz.questions.filter((_, i) => i !== index)
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload = { ...quiz, duration: quiz.duration * 60,end_time: new Date(quiz.end_time).toISOString(), };
+      const payload = {
+        ...quiz,
+        duration: quiz.duration * 60,
+        start_time: new Date(quiz.start_time).toISOString(),
+        end_time: new Date(quiz.end_time).toISOString(),
+      };
+
       await updateQuiz(id, payload);
+
       setShowPopUp(true);
       setTimeout(() => navigate("/faculty"), 2000);
     } catch (err) {
-      console.error("Error updating quiz:", err);
+      console.log("Error updating quiz:", err);
     }
   };
 
   return (
     <motion.div
-      className="max-w-4xl mx-auto p-6"
+      className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="text-4xl font-extrabold mb-8 text-center text-indigo-700">
+      {/* Title */}
+      <motion.h2
+        className="text-4xl font-extrabold mb-8 text-center text-indigo-700"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+      >
         Update Quiz
-      </h2>
+      </motion.h2>
 
+      {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="bg-white/70 backdrop-blur-lg shadow-2xl rounded-2xl p-6 space-y-8"
+        className="
+          bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl 
+          p-4 sm:p-6 md:p-8 space-y-8
+        "
       >
-        {/* Title, faculty, department, year */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        {/* Top section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
           <input
             type="text"
             name="title"
             placeholder="Quiz Title"
             value={quiz.title}
             onChange={handleQuizChange}
-            className="p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 transition"
+            className="p-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-500"
           />
+
           <input
             type="text"
-            name="faculty"
             readOnly
-            value={user ? user.user.username : ""}
-            className="p-3 rounded-lg border border-gray-300 bg-gray-100"
+            value={user?.user?.username || ""}
+            className="p-3 rounded-lg border border-gray-300 bg-gray-100 w-full"
           />
+
           <input
             type="text"
-            name="department"
             readOnly
-            value={user ? user.department : ""}
-            className="p-3 rounded-lg border border-gray-300 bg-gray-100"
+            value={user?.department || ""}
+            className="p-3 rounded-lg border border-gray-300 bg-gray-100 w-full"
           />
+
           <select
             name="year"
             value={quiz.year}
             onChange={handleQuizChange}
-            className="p-3 rounded-xl border border-gray-300 bg-white"
+            className="p-3 rounded-lg border border-gray-300 w-full"
           >
             <option value="FE">FE (First Year)</option>
             <option value="SE">SE (Second Year)</option>
@@ -163,33 +174,42 @@ const formatDuration = (durationStr) => {
           </select>
         </div>
 
-        {/* Time + Duration */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <input
-            type="datetime-local"
-             name="start_time" 
-            value={quiz.start_time}
-            onChange={handleQuizChange}
-            className="p-3 rounded-lg border border-gray-300"
-          />
-          <input
-            type="datetime-local"
-            name="end_time"
-            value={quiz.end_time}
-            onChange={handleQuizChange}
-            className="p-3 rounded-lg border border-gray-300"
-          />
-          <input
-            type="number"
-            name="duration"
-            placeholder="Duration in minutes"
-            value={quiz.duration}
-            onChange={handleQuizChange}
-            className="p-3 rounded-lg border border-gray-300"
-          />
+        {/* Dates + Duration */}
+        <div className="flex flex-col md:flex-row gap-6 w-full">
+        
+          <div className="flex flex-col w-full">
+            <label className="text-sm font-semibold mb-1">Start Time</label>
+            <input
+              type="datetime-local"
+              name="start_time"
+              value={quiz.start_time}
+              onChange={handleQuizChange}
+              className="p-3 rounded-lg border border-gray-300 w-full"
+            />
+          </div>
+
+          <div className="flex flex-col w-full">
+            <label className="text-sm font-semibold mb-1">End Time</label>
+            <input
+              type="datetime-local"
+              name="end_time"
+              value={quiz.end_time}
+              onChange={handleQuizChange}
+              className="p-3 rounded-lg border border-gray-300 w-full"
+            />
+          </div>
+
         </div>
 
-        {/* Description */}
+        <input
+          type="number"
+          name="duration"
+          placeholder="Duration in minutes"
+          value={quiz.duration}
+          onChange={handleQuizChange}
+          className="p-3 rounded-lg border border-gray-300 w-full"
+        />
+
         <textarea
           name="description"
           placeholder="Quiz Description"
@@ -200,8 +220,16 @@ const formatDuration = (durationStr) => {
 
         {/* Questions */}
         {quiz.questions.map((q, index) => (
-          <div key={index} className="p-4 border rounded-xl bg-gray-50 space-y-4">
-            <h3 className="text-lg font-semibold">Question {index + 1}</h3>
+          <motion.div
+            key={index}
+            className="p-4 sm:p-5 border rounded-xl shadow-md bg-gray-50/70 space-y-4 w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <h3 className="text-lg font-semibold text-gray-700">
+              Question {index + 1}
+            </h3>
+
             <input
               type="text"
               name="text"
@@ -210,6 +238,7 @@ const formatDuration = (durationStr) => {
               onChange={(e) => handleQuestionChange(index, e)}
               className="p-3 rounded-lg border border-gray-300 w-full"
             />
+
             {["option1", "option2", "option3", "option4"].map((opt, i) => (
               <input
                 key={i}
@@ -221,6 +250,7 @@ const formatDuration = (durationStr) => {
                 className="p-3 rounded-lg border border-gray-300 w-full"
               />
             ))}
+
             <input
               type="text"
               name="correct_option"
@@ -229,31 +259,35 @@ const formatDuration = (durationStr) => {
               onChange={(e) => handleQuestionChange(index, e)}
               className="p-3 rounded-lg border border-gray-300 w-full"
             />
+
             <button
               type="button"
               onClick={() => handleDeleteQuestion(index)}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg"
+              className="px-4 py-2 bg-red-500 hover:bg-red-600 transition text-white rounded-lg"
             >
               Delete Question
             </button>
-          </div>
+          </motion.div>
         ))}
 
-        <div className="flex justify-between gap-4">
+        {/* Buttons */}
+        <div className="flex flex-col md:flex-row justify-between gap-4">
           <button
             type="button"
             onClick={handleAddQuestion}
-            className="px-6 py-3 rounded-xl bg-indigo-500 text-white"
+            className="px-4 py-2 md:px-6 md:py-3 w-full md:w-auto rounded-xl bg-indigo-500 text-white shadow-lg hover:bg-indigo-600 transition"
           >
             Add Question
           </button>
+
           <button
             type="submit"
-            className="px-6 py-3 rounded-xl bg-green-600 text-white"
+            className="px-4 py-2 md:px-6 md:py-3 w-full md:w-auto rounded-xl bg-green-600 text-white shadow-lg hover:bg-green-700 transition"
           >
             Update Quiz
           </button>
         </div>
+
       </form>
 
       {showPopUp && (
@@ -264,6 +298,7 @@ const formatDuration = (durationStr) => {
           message2="Changes have been saved"
         />
       )}
+
     </motion.div>
   );
 };

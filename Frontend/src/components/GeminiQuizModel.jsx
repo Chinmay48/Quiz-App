@@ -43,9 +43,7 @@ Example format:
       const result = await model.generateContent(promptText);
 
       let responseText = result.response.text().trim();
-      console.log("RAW AI RESPONSE:", responseText); // ✅ Debug log
-
-      // ✅ Remove ```json or ``` wrappers if they exist
+     
       responseText = responseText
         .replace(/```json/gi, "")
         .replace(/```/g, "")

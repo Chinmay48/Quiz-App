@@ -14,11 +14,16 @@ import { StudentProfile } from './pages/student/StudentProfile'
 import { FacultyAnalytics } from './pages/faculty/FacultyAnalytics'
 import { QuizAnalyticsDetails } from './pages/faculty/QuizAnalyticsDetail'
 import { StudentAnalyticsPage } from './pages/student/StudentAnalytics'
+import { Register } from './pages/auth/Register'
 const App=()=>{
   const router=createBrowserRouter([
    {
     path:"/",
     element:<Login/>,
+   },
+   {
+      path:"/register",
+      element:<Register/>
    },
    {
     path:"/faculty",
