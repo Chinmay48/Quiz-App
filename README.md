@@ -41,6 +41,12 @@ The **Quiz App** is a full-stack web application that **digitalizes the quiz man
 It offers a secure, automated, and interactive platform for **faculty** to create and manage quizzes, and for **students** to attempt them in a real exam-like environment — complete with **AI-powered quiz generation**, **real-time evaluation**, and **analytics dashboards**.
 
 ---
+## 📍 Live Demo 
+ **https://quiz-frontend-nu-three.vercel.app/**
+
+
+
+---
 
 ## 🧩 Tech Stack
 
