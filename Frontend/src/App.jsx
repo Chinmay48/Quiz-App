@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
+
 import { Login } from './pages/auth/Login'
 import {createBrowserRouter,RouterProvider} from "react-router-dom"
 import { FacultyDashboard } from './pages/faculty/FacultyDashboard'
@@ -15,7 +16,9 @@ import { FacultyAnalytics } from './pages/faculty/FacultyAnalytics'
 import { QuizAnalyticsDetails } from './pages/faculty/QuizAnalyticsDetail'
 import { StudentAnalyticsPage } from './pages/student/StudentAnalytics'
 import { Register } from './pages/auth/Register'
+import axios from 'axios'
 const App=()=>{
+
   const router=createBrowserRouter([
    {
     path:"/",

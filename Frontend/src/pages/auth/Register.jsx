@@ -171,19 +171,7 @@ export const Register = () => {
           </select>
         </div>
 
-        <motion.p
-                  className="text-center text-sm text-gray-600 mt-5"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  Already have an account?{" "}
-                  <Link
-                    to="/"
-                    className="text-indigo-600 font-semibold hover:underline"
-                  >
-                    Login 
-                  </Link>
-                </motion.p>
+        
 
         {/* Year — only if role = student */}
         {form.role === "student" && (
@@ -214,6 +202,19 @@ export const Register = () => {
         >
           Register
         </motion.button>
+        <motion.p
+                  className="text-center text-sm text-gray-600 mt-5"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  Already have an account?{" "}
+                  <Link
+                    to="/"
+                    className="text-indigo-600 font-semibold hover:underline"
+                  >
+                    Login 
+                  </Link>
+                </motion.p>
       </form>
     </motion.div>
   );
